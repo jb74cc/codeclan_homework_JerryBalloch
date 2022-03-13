@@ -1,0 +1,208 @@
+---
+title: "Weekend Homework - week 1"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r}
+library(tidyverse)
+library(CodeClanData)
+library(hrbrthemes)
+library(viridis)
+
+books <- read_csv('data/books.csv')
+
+view(books)
+names(books)
+```
+
+```{r}
+spec(books)
+
+head(books)
+tail(books)
+```
+
+
+# Arranging by number of books per publisher
+
+
+```{r}
+# Arrange by number of books by publisher
+
+books_by_publisher <- books %>% 
+  group_by(publisher) %>% 
+  summarise(
+    number_books = n()) %>% 
+  arrange(desc(number_books))
+
+books_by_publisher
+
+# created a 'top 20' list for using later on
+
+books_by_publisher_20 <- books %>% 
+  group_by(publisher) %>% 
+  summarise(
+    number_books = n()) %>% 
+  arrange(desc(number_books)) %>% 
+  head(20)
+
+books_by_publisher_20
+
+
+```
+# Arranging by number of books per author
+
+```{r}
+# Arrange by number of books by author
+
+books_by_author <- books %>% 
+  group_by(authors) %>% 
+  summarise(
+    number_books = n()) %>% 
+  arrange(desc(number_books))
+
+books_by_author
+```
+# Average rating of all books
+
+```{r}
+
+# Average rating of books
+
+books %>% 
+  select(average_rating) %>% 
+  summarise(mean(average_rating))
+
+books %>% 
+  select(average_rating) %>% 
+  summarise(number_books = n(),
+            avg_rating = round(mean(average_rating), digits = 1),
+  ) 
+  
+
+```
+# Arranging by number of books per publisher with average rating
+
+```{r}
+books_by_author_rated <- books %>% 
+  group_by(authors) %>% 
+  summarise(
+    avg_rating = round(mean(average_rating), digits = 1),
+    number_books = n())%>% 
+  arrange(desc(number_books))
+
+books_by_author_rated
+```
+# List of selected author's top 5 rated books
+
+```{r}
+books %>% 
+  select(authors, title, average_rating, publisher) %>% 
+  filter(authors == "P.G. Wodehouse") %>% 
+  arrange(desc(average_rating)) %>% 
+  head(5)
+
+```
+# Top 5 most read Authors and books - with average rating of book
+
+```{r}
+# Top 5 authors by number of ratings also showing average rating
+
+most_rated_authors <- books %>% 
+  select(authors, title, ratings_count, average_rating) %>% 
+  arrange(desc(ratings_count)) %>% 
+  head(5)
+
+most_rated_authors
+
+```
+
+# Finding out the number of books by language
+
+```{r}
+# Arrange by number of books by language
+
+books_by_language <- books %>% 
+  group_by(language_code) %>% 
+  summarise(
+    number_books = n()) %>% 
+  arrange(desc(number_books))
+
+books_by_language
+```
+
+
+
+# Graph of Top 20 publishers by volume of books published
+
+Code from the 'Coding for Data Analysis Workshop' I did before I started this course.
+
+
+```{r}
+
+plot_books_by_publisher <- books_by_publisher_20 %>%
+  ggplot(aes(x = reorder(publisher, desc(number_books)), y = number_books)) +
+  geom_col(fill = "orange") + 
+  theme_light() +
+  theme(axis.text.x = element_text(angle = 45,hjust=1)) +
+  scale_y_continuous(expand = c(0,0)) +
+  xlab("Publisher") + 
+  ylab("Books published")
+
+
+plot_books_by_publisher
+
+```
+# Mucking about with ggplot Bubble Chart
+
+Not really working but fun to give it a bash.
+Bubble size is average rating of Author.
+```{r}
+
+install.packages("viridis")
+install.packages("hrbrthemes")
+
+library(ggplot2)
+library(dplyr)
+library(hrbrthemes)
+library(viridis)
+
+
+books_by_author_rated_20 %>%
+  arrange(desc(avg_rating)) %>%
+  mutate(authors = factor(authors, authors)) %>%
+  ggplot(aes(x=authors, y=number_books, size = avg_rating, color=authors)) +
+  geom_point(alpha=0.5) +
+  scale_size(range = c(.1, 15), name="Rating") +
+  scale_fill_viridis(discrete=TRUE, guide=FALSE, option="A") +
+  theme_ipsum() +
+  theme(legend.position="bottom") +
+  theme(axis.text.x = element_text(angle = 45,hjust=1)) +
+  ylab("Number of Books") +
+  xlab("Author") +
+  theme(legend.position = "none")
+
+
+
+
+
+```
+
+
+
+```{r}
+# Trying to filter out rows that contain collections or 
+# more than one book by page count but not enough data
+
+#books %>% 
+#select(num_pages, title) %>% 
+#  arrange(desc(num_pages))
+
+
+
+```
+
+
+
