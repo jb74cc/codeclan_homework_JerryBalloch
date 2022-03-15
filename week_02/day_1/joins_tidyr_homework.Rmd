@@ -17,10 +17,16 @@ Question 1
 Read in all 4 credit card transaction datasets and clean column names.
 
 ```{r}
-card_base <-  read_csv('data/CardBase.csv')
-customer_base <-  read_csv('data/CustomerBase.csv')
-fraud_base <-  read_csv('data/FraudBase.csv')
-transaction_base <-  read_csv('data/TransactionBase.csv')
+
+#needed to run janotor and clean_names first
+
+library(janitor)
+
+
+card_base <-  read_csv('data/CardBase.csv') %>% clean_names()
+customer_base <-  read_csv('data/CustomerBase.csv') %>% clean_names()
+fraud_base <-  read_csv('data/FraudBase.csv') %>% clean_names()
+transaction_base <-  read_csv('data/TransactionBase.csv') %>% clean_names()
 
 transaction_base
 ```
@@ -58,8 +64,8 @@ Question 4
 Join the data containing card details with transaction details so rows from the first which have matching ones in the second are returned, but only return rows in the first table once.
 
 ```{r}
-#Not sure I've got this!
-semi_join(card_base, transaction_base, by = c("Card_Number" ="Credit_Card_ID")) 
+#Not sure I've got this! Turns out I did!
+semi_join(card_base, transaction_base, by = c("Card_Number" = "Credit_Card_ID")) 
 
 
 ```
@@ -89,6 +95,12 @@ Then find the date where the most berets were observed.
 hat_observations_cleaned %>% 
   filter(hat_type == "beret") %>% 
   arrange(desc(observation_count))
+
+
+# Returns just the top value using slice_max ------------------------------------
+hat_observations_cleaned %>% 
+  filter(hat_type == "beret") %>% 
+  slice_max(observation_count, n = 1)
 
 ```
 
