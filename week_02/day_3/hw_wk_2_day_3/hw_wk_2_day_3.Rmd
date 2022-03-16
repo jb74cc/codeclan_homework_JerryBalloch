@@ -1,0 +1,124 @@
+---
+title: "Homework"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+```
+Question 1.
+Find the weather forecast for the next three days online. Create a list of lists in which each inner list should be labelled with the name of the day of the week. Each inner list should contain named elements telling you the temperature, chance of rain and wind speed.
+```{r}
+weather_forecast <- list(
+                "Thursday" = list(temperature = 8, chance_of_rain = 50, wind_speed = 15),
+                "Friday" = list(temperature = 10, chance_of_rain = 75, wind_speed = 25),
+                "Saturday" = list(temperature = 7, chance_of_rain = 20, wind_speed = 5)
+)
+
+weather_forecast
+```
+
+Question 2.
+Using the list you’ve just made find:
+
+The chance of rain tomorrow
+The wind speed on the day after tomorrow
+The temperature tomorrow.
+
+```{r}
+
+weather_forecast$Thursday$chance_of_rain
+weather_forecast$Friday$wind_speed
+weather_forecast$Thursday$temperature
+
+
+```
+
+Question 3.
+Find a 14 day forecast online and create a matrix of the forecasts for temperature, where each week is one row and columns correspond to days.
+
+You will want to give a name to the matrix you create.
+
+```{r}
+
+temps <- (c(11, 13, 15, 12, 11, 13, 12, 12, 12, 12, 12, 12, 12, 12))
+
+forecast <- matrix(temps, nrow = 2, ncol = 7)
+
+forecast
+
+```
+
+Question 4.
+From the matrix you just made select:
+
+The third day of the second week
+The whole second week
+The first, third and fifth days in both weeks.
+
+```{r}
+forecast[2,3]
+forecast[2,1:7]
+forecast[ ,c(1, 3, 5)]
+
+```
+
+Question 5.
+Write a function that pre-appends “The answer is:” to any character input, while for numeric input, it either just returns the number for numbers less than 10, or divides the number by 10 for numbers greater than 10. For anything else return “Invalid input”.
+
+```{r}
+crazy_function <- function(i){
+  
+  if (is.character(i) == TRUE) {
+    return(
+      paste("The answer is:" ,i))
+  }
+    if (is.numeric(i) == TRUE) {
+      
+    if (i <= 10){
+      print(i)}
+   
+   if (i > 10){
+      print(i)}
+  } 
+    else{
+      print("Invalid input")
+    }
+  
+}
+crazy_function("bingo!")
+```
+
+Question 6.
+Write a function which checks if two vectors have the same elements.
+
+If they have the same elements in the same order, return “Exactly the same”
+If they have the same elements but in a different order, return “The same”
+If they don’t have the same elements, return “Different”.
+
+```{r}
+# assign matching or mismatching elements to these two vectors
+one <- c(1,2,3) 
+two <- c(1,2,3)
+
+check_vector <- function(one, two){
+  if (one == two){
+    return(
+      print("Exactly the same"))
+  }
+  if (one %in% two){
+    return(
+      print("The same"))
+  }
+  if (one != two){
+    return( 
+    print("Different"))
+  }
+}    
+
+check_vector(one, two)
+
+# this is working but throwing up warnings about condition length
+
+```
+
