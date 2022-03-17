@@ -99,7 +99,7 @@ If they don’t have the same elements, return “Different”.
 ```{r}
 # assign matching or mismatching elements to these two vectors
 one <- c(1,2,3) 
-two <- c(1,2,3)
+two <- c(1,2,1)
 
 check_vector <- function(one, two){
   if (one == two){
