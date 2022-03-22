@@ -133,6 +133,37 @@ ON e.team_id = t.id
 GROUP BY t.id
 HAVING CAST (t.charge_cost AS int) * count(e.id) > 5000;
 
+/*2 Extension
+ * 
+ * 
+Question 5.
+How many of the employees serve on one or more committees?*/
+
+--this is telling me how many committees each employee serves on 
+SELECT
+    employee_id,
+    count(employee_id) AS num_of_committees
+FROM employees_committees  
+GROUP by employee_id;
+
+--this is telling me employees that serve on at least one committee 
+SELECT
+DISTINCT employee_id AS serve_on_committee
+FROM employees_committees;
+
+/*Question 6.
+How many of the employees do not serve on a committee?*/
+
+--From Q5 above I can see that 22 employees serve on committees 
+--I now need to find out how to minus 22 from total number of employees 
+
+SELECT
+    count(e.id)
+FROM employees AS e
+ JOIN employees_committees AS ec 
+ON 
+;
+
 
 
 
