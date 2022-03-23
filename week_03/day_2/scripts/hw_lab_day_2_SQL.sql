@@ -164,6 +164,12 @@ FROM employees AS e
 ON 
 ;
 
-
+--correct answer
+SELECT 
+  COUNT(*) AS num_not_in_committees
+FROM employees e
+LEFT JOIN employees_committees ec
+ON e.id = ec.employee_id 
+WHERE ec.employee_id IS NULL
 
 
