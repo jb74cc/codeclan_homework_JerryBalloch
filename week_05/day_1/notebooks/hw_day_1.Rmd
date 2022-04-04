@@ -89,3 +89,34 @@ ggplot(qb_device_data) +
   facet_grid(id~device)
 ```
 
+# Extension
+Take the plots that you produced in part one and now polish them by:
+
+Adding appropriate labels
+Applying a unified theme, which is described below:
+Graphs should have white backgrounds, and use colour sparingly.
+There should be faint grid lines.
+Font sizes should be ~12pt although titles should be slightly larger and axis labels can be slightly smaller.
+All plots should use colours from the following company colour scheme.
+
+```{r}
+
+ggplot(qb_competitors) +
+  aes(x = Year, y = Revenue, colour = Company) +
+  geom_line() +
+  geom_point()+
+  theme_minimal() +
+  labs(
+    title = "Competitor Sales",
+    x = "Year",
+    y = "Revenue"
+  ) +
+  theme(
+    panel.background = element_rect(fill = "#FFFFFF"),
+    panel.grid = element_line(),
+    axis.text = element_text(size = 9),
+    axis.title = element_text(size = 12),
+    plot.title = element_text(size = 14)
+  )
+```
+
