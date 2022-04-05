@@ -100,23 +100,35 @@ Font sizes should be ~12pt although titles should be slightly larger and axis la
 All plots should use colours from the following company colour scheme.
 
 ```{r}
+# define a custom colour scheme
+col_scheme <- c("#E89FE9", "#50434F", "#B6A7B5", "#F9A472", "#BD7040")
+
+# define a custom theme
+theme_qb <- 
+  theme(
+    text = element_text(size = 12),
+    title = element_text(size = 14),
+    axis.text = element_text(size = 10),
+    panel.background = element_rect(fill = "white"),
+    panel.grid = element_line(colour = "grey90", linetype = "dashed")
+  )
+
+```
+
+
+```{r}
 
 ggplot(qb_competitors) +
   aes(x = Year, y = Revenue, colour = Company) +
   geom_line() +
-  geom_point()+
-  theme_minimal() +
+  geom_point() +
+  scale_colour_manual(values = col_scheme) +
+  theme_qb +
   labs(
     title = "Competitor Sales",
     x = "Year",
     y = "Revenue"
-  ) +
-  theme(
-    panel.background = element_rect(fill = "#FFFFFF"),
-    panel.grid = element_line(),
-    axis.text = element_text(size = 9),
-    axis.title = element_text(size = 12),
-    plot.title = element_text(size = 14)
   )
+  
 ```
 
