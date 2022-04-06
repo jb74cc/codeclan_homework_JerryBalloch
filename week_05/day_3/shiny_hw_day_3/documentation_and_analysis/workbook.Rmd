@@ -1,0 +1,28 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+
+
+workout_data <- read_csv(here::here("data/workout_data.csv"))
+
+```
+
+```{r}
+# workout_data <- workout_data %>%
+#   mutate(month = month(start, label = TRUE), .before = 1) %>%
+#   select(month, type, duration) %>% 
+#   arrange(month)
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
