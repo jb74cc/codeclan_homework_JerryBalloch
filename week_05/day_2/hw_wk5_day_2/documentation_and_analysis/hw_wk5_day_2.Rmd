@@ -40,7 +40,9 @@ dim(backpack)
 
 # Question 2.
 
-What is the distribution of backpack weights that students are carrying? Choose an appropriate graph to show the distribution.
+What is the distribution of backpack weights that students are carrying? Choose an appropriate graph to show the distribution.     
+
+Backpack weights seem to be more common in the 5 - 15 lb range.
 
 ```{r}
 ggplot(backpack) +
@@ -56,7 +58,9 @@ ggplot(backpack) +
 
 # Question 3.
 
-Are there differences in backpack weight between sex?
+Are there differences in backpack weight between sex?    
+
+It appears that more backpack weight is carried by females overall.
 
 ```{r}
 backpack %>%
@@ -71,11 +75,13 @@ backpack %>%
 
 # Question 4.
 
-What is the relationship between body weight and backpack weight?
+What is the relationship between body weight and backpack weight?    
+
+I can see no clear correlation between backpack weight and body weight. One observation from the chart below is the person carrying the heaviest backpack does not suffer from back problems - light blue dots indicate back problems, dark blue no back problems.
 
 ```{r}
 ggplot(backpack) +
-  aes(x = body_weight, y = backpack_weight) +
+  aes(x = body_weight, y = backpack_weight, colour = back_problems) +
   geom_point()+
   labs(x = "body weight", 
        y = "backpack weight",
@@ -87,7 +93,9 @@ ggplot(backpack) +
 
 # Question 5.
 
-Is this relationship different between men and women? Choose an appropriate plot and interpret your findings.
+Is this relationship different between men and women? Choose an appropriate plot and interpret your findings.   
+
+Backpack weight is slightly more concentrated in the 5 - 15 lb range for females, while body weight is generally less than males.
 
 ```{r}
 ggplot(backpack) +
@@ -96,14 +104,17 @@ ggplot(backpack) +
   #geom_line(aes(mean(body_weight)), colour="blue", linetype="11", size=0.3) + 
   labs(x = "body weight", 
        y = "backpack weight",
-       title = "relationship between body weight and backpack weight") +
-  theme_minimal()
-  # facet_wrap(~sex)
+       title = "relationship between body weight and backpack weight by sex") +
+  theme_minimal() +
+  facet_wrap(~sex) +
+    theme(legend.position = "none")
 ```
 
 # Question 6.
 
-What proportion of students report back pain?
+What proportion of students report back pain?    
+
+There are a larger proportion of students not suffering from back problems than those that do.
 
 ```{r}
 ggplot(backpack) +
@@ -113,13 +124,15 @@ ggplot(backpack) +
        y = "number of students",
        title = "Students reporting back pain") +
   theme_minimal() +
-   scale_x_continuous(breaks = seq(0, 1), labels = c("N", "Y"))
+   scale_x_continuous(breaks = seq(0, 1), labels = c("No", "Yes"))
 
 ```
 
 # Question 7.
 
-Is this proportion different between men and women?
+Is this proportion different between men and women?    
+
+It appears that the majority of students that suffer back problems are female - over double that of males.
 
 ```{r}
 ggplot(backpack) +
@@ -129,7 +142,7 @@ ggplot(backpack) +
        y = "number of students",
        title = "Students reporting back pain") +
   theme_minimal() +
-   scale_x_continuous(breaks = seq(0, 1), labels = c("N", "Y")) +
+   scale_x_continuous(breaks = seq(0, 1), labels = c("No", "Yes")) +
   facet_grid(~sex)
 ```
 
