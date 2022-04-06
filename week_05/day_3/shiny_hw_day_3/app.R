@@ -22,6 +22,9 @@ ui <- fluidPage(
   sidebarLayout(
     sidebarPanel(
       
+      img(src = "jb.gif", height = 102, width = 47),
+      
+      HTML("<br><br>"),
       
       checkboxGroupInput("month_input", 
                          tags$h4("Choose Month(s)"), 
