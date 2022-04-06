@@ -86,7 +86,8 @@ ggplot(backpack) +
   labs(x = "body weight", 
        y = "backpack weight",
        title = "relationship between body weight and backpack weight") +
-  theme_minimal()
+  theme_minimal() +
+  theme(legend.position = "none")
 
 
 ```
@@ -155,6 +156,13 @@ Try both backpack_weight and body_weight as well as the ratio.
 Hint: faceting would be useful here.
 
 ```{r}
-
+ggplot(backpack) +
+  aes(x = body_weight, y = backpack_weight, size = backpack_weight, colour = back_problems) +
+  geom_point()+
+  labs(x = "body weight", 
+       y = "backpack weight",
+       title = "relationship between body weight and backpack weight") +
+  theme_minimal() +
+  facet_wrap(~sex)
 ```
 
