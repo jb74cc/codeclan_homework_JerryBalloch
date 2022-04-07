@@ -68,7 +68,8 @@ server <- function(input, output) {
       scale_fill_manual(values = c("Jan" = "#1A3873", 
                                    "Feb" = "#275D8C", 
                                    "Mar" = "#34A6BF")) +
-      #scale_x_continuous(limits = 0,16) +
+      #xlim(c(min(0), max(workout_data$duration))) +
+      scale_x_time(limits = c(min(0), max(workout_data$duration))) + # almost!
       theme(legend.position = "none")
     
   })
