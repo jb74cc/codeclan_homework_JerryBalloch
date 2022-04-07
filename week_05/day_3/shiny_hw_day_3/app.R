@@ -35,6 +35,7 @@ ui <- fluidPage(
       
       # when no activity is present for month selected the chart errors
       # need to find a way to prevent this
+      # fixed, use `%in%` instead of `==` in month filter below
       
       
       selectInput("type_input",
