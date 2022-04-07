@@ -57,7 +57,7 @@ server <- function(input, output) {
     
     workout_data %>%
       filter(type == input$type_input) %>% 
-      filter(month == input$month_input) %>% 
+      filter(month %in% input$month_input) %>% 
       ggplot(aes(x = duration, y = month, fill = month)) +
       geom_col() +
       #theme(legend.position="bottom") +
@@ -68,6 +68,7 @@ server <- function(input, output) {
       scale_fill_manual(values = c("Jan" = "#1A3873", 
                                    "Feb" = "#275D8C", 
                                    "Mar" = "#34A6BF")) +
+      #scale_x_continuous(limits = 0,16) +
       theme(legend.position = "none")
     
   })
