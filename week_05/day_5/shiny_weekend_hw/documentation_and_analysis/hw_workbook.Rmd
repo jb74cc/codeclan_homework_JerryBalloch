@@ -1,0 +1,57 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(shiny)
+library(tidyverse)
+library(shinythemes)
+library(janitor)
+library(here)
+library(lubridate)
+
+workout_data <- read_csv(here::here("data/Workouts-2022-01-01-2022-04-01.csv"))
+health_data <- read_csv(here::here("data/HealthAutoExport-2022-01-01-2022-04-01 Data.csv"))
+workout_data_filtered <- read_csv(here::here("data/workout_data.csv"))
+
+workout_data <- clean_names(workout_data)
+health_data <- clean_names(health_data)
+```
+
+
+```{r}
+```{r}
+health_data %>% 
+  ggplot() +
+  aes(x = date, y = heart_rate_max_count_min, colour = "Max HR") +
+  geom_path() +
+  geom_point(aes(y = resting_heart_rate_count_min, colour = "resting HR")) +
+  geom_point(aes(y = blood_oxygen_saturation_percent, colour = "Blood Oxygen %"))
+```
+
+```{r}
+health_data %>% 
+  group_by(date) %>% 
+  ggplot() +
+  aes(x = date, y = step_count_count) +
+  geom_col() +
+  geom_line(aes(y = basal_energy_burned_k_j, colour = "energy"))
+
+```
+
+```{r}
+
+#making a month column
+
+health_data <- health_data %>% 
+  mutate(month = months(date), .before = 1)
+
+workout_data <- workout_data %>% 
+    mutate(month = months(start), .before = 1) %>% 
+    mutate(date = date(start), .before = 2)
+  
+
+
+```
+

@@ -5,9 +5,15 @@ output: html_notebook
 
 ```{r}
 library(tidyverse)
-
+library(here)
+library(janitor)
 
 workout_data <- read_csv(here::here("data/workout_data.csv"))
+workout_data_full <- read_csv(here("data/Workouts-2022-01-01-2022-04-01.csv"))
+health_data_full <- read_csv(here("data/HealthAutoExport-2022-01-01-2022-04-01 Data.csv"))
+
+workout_data_full <- clean_names(workout_data_full)
+health_data_full <- clean_names(health_data_full)
 
 ```
 
