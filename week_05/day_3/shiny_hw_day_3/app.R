@@ -22,7 +22,7 @@ ui <- fluidPage(
   sidebarLayout(
     sidebarPanel(
       
-      img(src = "jb.gif", height = 102, width = 47),
+      img(src = "jb.gif", height = 95, width = 41),
       
       HTML("<br><br>"),
       
@@ -70,7 +70,7 @@ server <- function(input, output) {
                                    "Feb" = "#275D8C", 
                                    "Mar" = "#34A6BF")) +
       #xlim(c(min(0), max(workout_data$duration))) +
-      scale_x_time(limits = c(min(0), max(workout_data$duration))) + # almost!
+      #scale_x_time(limits = c(min(0), max(workout_data$duration))) + # almost!
       theme(legend.position = "none")
     
   })
