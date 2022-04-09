@@ -5,6 +5,8 @@ library(janitor)
 library(here)
 library(DT)
 library(plotly)
+library(lubridate)
+library(shinydashboard)
 
 
 workout_data <- read_csv(here::here("data/Workouts-2022-01-01-2022-04-01.csv"))
@@ -26,9 +28,10 @@ workout_data <- workout_data %>%
 
 
 
-all_types <- unique(workout_data_filtered$type)
-all_months <- unique(workout_data_filtered$month)
+all_types <- unique(workout_data$type)
+all_months <- unique(workout_data$month)
 all_dates <- unique(health_data$month)
+all_steps <- health_data %>% na.omit(step_count_count) %>% sum(health_data$step_count_count)
 
 #valueBoxOutput <- function(outputId, width = 4) {
   #shiny::uiOutput(outputId, class = paste0("col-sm-", width))
@@ -63,7 +66,6 @@ ui <- fluidPage(
       
     
       
-      #valueBoxOutput("vbox"),
     ),
     
     mainPanel(
@@ -73,7 +75,10 @@ ui <- fluidPage(
       
       HTML("<br><br>"),
       
-      plotlyOutput("heart_plot")
+      plotlyOutput("heart_plot"),
+      
+      #valueBoxOutput("steps_", width = 3)
+      
       
     )
   )
@@ -124,13 +129,13 @@ server <- function(input, output) {
     
   })
   
-  # output$vbox <- renderValueBox({
-  #   valueBox(
-  #     "Title",
-  #     input$count,
-  #     icon = icon("credit-card")
-  #   )
-  # })
+  output$steps_ <- renderValueBox({
+    valueBox(
+      value = all_steps,
+      subtitle = "Steps",
+      icon = icon("up-arrow")
+      )
+  })
   
 }
 

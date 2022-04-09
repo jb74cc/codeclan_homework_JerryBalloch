@@ -55,3 +55,9 @@ workout_data <- workout_data %>%
 
 ```
 
+```{r}
+health_data %>% 
+  na.omit(step_count_count) %>% 
+  sum(health_data$step_count_count)
+```
+
