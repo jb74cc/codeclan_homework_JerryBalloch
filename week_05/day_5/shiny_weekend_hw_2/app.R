@@ -126,6 +126,7 @@ server <- function(input, output) {
       geom_point() +
       #geom_line() +
       geom_point(aes(y = avg_heart_rate_bpm, colour = "average HR")) +
+      scale_colour_manual(values = c("Max HR" = "#a83232", "average HR" = "#2e50a6")) +
       xlab("Date") +
       ylab("Heart Rate bpm") +
       ylim(c(50,200)) +
