@@ -104,7 +104,19 @@ count <- phones_scaled %>%
 
 ```
 
-```{r}
+```{r include=FALSE}
+# load in stats library
+library(stats)
+```
 
+# 2 Extension
+Investigate the use of the qqnorm() plot in R to determine whether data is normally distributed. What is a ‘quantile-quantile plot’? What do we expect to see in a qqnorm() plot if data is nearly normally distributed?
+
+__Answer:__ Using qqplot it appears the data has "heavy tails" this indicates the data may have more extreme values than it should if it came from a Normal distribution. A Normal Distribution would have points forming more of a straight line. More along the red line in the plot below.
+
+```{r}
+# use `qqnorm` and `qqline` 
+qqnorm(phones_scaled$z_rating)
+qqline(phones_scaled$z_rating, col = "red")
 ```
 
