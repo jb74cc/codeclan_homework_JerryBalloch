@@ -1,0 +1,110 @@
+---
+title: "Distributions homework"
+author: "Jerry Balloch"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    theme: cosmo
+    number_sections: false
+    df_print: paged
+---
+
+```{r include=FALSE}
+# load in libraries
+library(prob)
+library(tidyverse)
+library(janitor)
+library(here)
+```
+
+# Question 1.
+Load the data, clean_names() and explore it.
+```{r}
+# read in and clean data
+phone_data <- read_csv(here('data/20190928-items.csv')) %>% 
+  clean_names()
+
+dim(phone_data)
+names(phone_data)
+head(phone_data)
+
+```
+# Question 2.
+Find the brand with the highest numbers of phones in the dataset.
+
+__Answer:__ Samsung has the highest number of phones in the dataset at 397.
+
+
+```{r}
+phone_data %>% 
+  group_by(brand) %>% 
+  count() %>% 
+  arrange(desc(n)) %>% 
+  head(1)
+```
+# Question 3.
+For your top brand, plot the distribution of phone ratings as a probability density, overlaying a fitted normal distribution. Do you think the normal distribution provides a good model of these ratings?
+
+__Answer:__ I think the histogram shows a relatively normal distribution, perhaps slightly left-skewed.
+
+```{r}
+phone_data_stats <- phone_data %>% 
+  filter(brand == "Samsung") %>%
+  summarise(mean_rating = mean(rating),
+            sd_rating = sd(rating))
+
+phone_data %>% 
+  ggplot(aes(x = rating)) +
+  geom_histogram(aes(y = ..density..), col = "white", bins = 25) +
+  stat_function(
+    fun = dnorm,
+    args = list(
+      mean = phone_data_stats$mean_rating,
+      sd = phone_data_stats$sd_rating
+    ),
+    col = "red"
+  )
+  
+```
+
+# Question 4.
+We can be more quantitative in comparing the distribution of top brand ratings with a normal distribution. You calculated the mean() and sd() of your distribution in an earlier question. Use these values to calculate the proportions of ratings within one-, two- and three standard deviations of the mean. Compare these proportions with those you expect for a normal distribution.
+
+__Answer:__ one sd = 79.3%, two sd = 91.9%, three sd = 97.9%   
+Normal distribution should be 68% - 95% - 98.7% so we are close on two and three but over on one. 
+
+```{r}
+# get the z_score of the ratings column
+phones_scaled <-  phone_data %>% 
+  filter(brand == "Samsung") %>% 
+  mutate(z_rating = scale(rating))
+
+# calculate proportions of ratings within one standard deviation of the mean
+count <- phones_scaled %>% 
+  filter(between(z_rating, left = -1, right = 1)) %>% 
+  nrow()
+
+100 * count / nrow(phones_scaled)
+
+# calculate proportions of ratings within two standard deviation of the mean
+count <- phones_scaled %>% 
+  filter(between(z_rating, left = -2, right = 2)) %>% 
+  nrow()
+
+100 * count / nrow(phones_scaled)
+
+# calculate proportions of ratings within three standard deviation of the mean
+count <- phones_scaled %>% 
+  filter(between(z_rating, left = -3, right = 3)) %>% 
+  nrow()
+
+100 * count / nrow(phones_scaled)
+
+
+```
+
+```{r}
+
+```
+
