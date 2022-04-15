@@ -1,0 +1,104 @@
+---
+title: "Hypothesis tests & probability - weekend homework"
+author: "Jerry Balloch"
+output: html_notebook
+---
+
+```{r}
+# load in data and libraries
+library(janitor)
+library(infer)
+library(tidyverse)
+library(e1071)
+
+msleep
+```
+# Question 1.
+Explore the dataset and familiarise yourself with it.
+
+```{r}
+# explore data
+dim(msleep)
+names(msleep)
+glimpse(msleep)
+```
+
+# Question 2.
+Jabberwockies sleep for around 7 hours a night, on average. Perform an appropriate statistical test to determine whether the mean sleep_total in the sampled population of animal types differs from the typical value for jabberwockies.
+
+__Answer:__ The mean of sleep_total is 11.22 hours. Jaberwockies sleep an average 7 hours a night, so less than the over all average of the animals in our sample.
+
+```{r}
+mean_sleep <- msleep %>% 
+  na.omit(sleep_total) %>% 
+  summarise(mean_sleep_total = mean(sleep_total)) 
+mean_sleep
+```
+
+# Question 3.
+Perform an appropriate statistical test to determine whether omnivores sleep for significantly longer than herbivores, on average.
+
+__Answer:__ 
+
+__α = 0.05__<br>
+__H0 : There is no difference in average sleep totals between omnivores and herbivores.__     
+__Ha : The mean of sleep totals of omnivores is significantly longer than the mean of herbivores sleep totals.__<br>
+
+I created a `bootstrapped null distribution` with 10k reps and permuted the `vore` column, as under H0 the `vore` would have no bearing on the sleep_total. Separately I calculated the difference in `means` between the two `vores` to get my `observed statistic`. I then visualised my `observed statistic` on the `null distribution`.<br>
+This is a one tailed test as `Ha` is looking at a difference greater than zero, i.e. right direction. Looking at the visualisation the observed statistic is to the right of the distribution meaning there would be a small probability of `H0` being true. The p-value confirms is 0.137 which is less than our specified `α = 0.05` allowing me to reject `H0` and conclude that the average nights sleep total of omnivores ***may*** be significantly longer than herbivores.
+
+```{r}
+# calculating the total means of sleep by vore
+msleep %>% 
+  group_by(vore) %>% 
+  filter(vore %in% c("omni", "herbi")) %>% 
+  na.omit(sleep_total, vore) %>% 
+  summarise(mean_sleep_total = mean(sleep_total))
+
+# create a dataset with just omni and herbi vores, removing any NA values
+omni_herbi <- msleep %>% 
+  group_by(vore) %>% 
+  filter(vore %in% c("omni", "herbi")) %>% 
+  na.omit(sleep_total, vore) 
+
+# visualise the data using a boxplot
+omni_herbi %>% 
+  ggplot(aes(x = vore, y = sleep_total)) +
+  geom_boxplot()
+
+# create a null distribution
+null_distribution <- omni_herbi %>% 
+  specify(sleep_total ~ vore) %>% 
+  hypothesize(null = "independence") %>% 
+  generate(reps = 10000, type = "permute") %>% 
+  calculate(stat = "diff in means", order = c("omni", "herbi")) 
+
+# calculate observed statistic
+observed_stat <- omni_herbi %>% 
+  specify(sleep_total ~ vore) %>%
+  calculate(stat = "diff in means", order = c("omni", "herbi")) 
+
+observed_stat
+
+# visualise the observed stat on the distribution
+null_distribution %>%
+  visualise() +
+  shade_p_value(obs_stat = observed_stat, direction = "right")
+
+# get the p=value
+p_value <- null_distribution %>%
+  get_p_value(obs_stat = observed_stat, direction = "right")
+
+p_value
+
+  
+```
+
+# Question 4. Perform an appropriate statistical test to determine whether the proportion of domesticated animal types in the population of animal types is greater than 5%.
+
+```{r}
+msleep %>% 
+  mutate(is_domesticated = conservation == "domesticated") %>% 
+  filter(is_domesticated == TRUE)
+```
+
