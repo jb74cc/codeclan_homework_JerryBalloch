@@ -1,0 +1,65 @@
+---
+title: "Simple Linear Regression Homework"
+output: html_notebook
+---
+
+```{r include=FALSE}
+library(tidyverse)
+library(modelr)
+library(here)
+library(janitor)
+library(broom)
+library(ggfortify)
+
+project_management <- read_csv(here('data/project_management.csv'))
+
+project_management
+
+```
+
+### Plot the data, taking estimated_length as the independent variable and actual_length as the dependent variable.
+
+The plot shows positive correlation.
+
+```{r}
+project_management %>%
+  ggplot(aes(x = estimated_length, y = actual_length)) +
+  geom_point() +
+  geom_smooth(method = lm, se = FALSE)
+```
+
+### Calculate the correlation coefficient of estimated_length and actual_length and interpret the value you obtain.
+
+__answer__
+The correlation coefficient is 0.80 which means on the JD Evans Magnitude scale it is very strongly positively correlated.
+
+```{r}
+
+cor(project_management$estimated_length, project_management$actual_length)
+
+```
+
+### Perform a simple linear regression using actual_length as the dependent variable, and estimated_length as the independent variable. Save the model object to a variable.
+
+```{r}
+model <- lm(actual_length ~ estimated_length,
+            data = project_management)
+
+summary(model)
+```
+
+### Interpret the regression coefficient of estimated_length (i.e. slope, gradient) you obtain from the model. How do you interpret the r2 value reported by the model?
+
+__answer__
+The p-value scores three stars (***) meaning it is statistically significant. The Adjusted R-squared value is 0.6401
+
+### Is the relationship statistically significant? Remember, to assess this you need to check the p-value of the regression coefficient (or slope/gradient). But you should first check the regression diagnostic plots to see if the p-value will be reliable (don’t worry about any outlier points you see in the diagnostic plots, we’ll return to them in the extension).
+
+__answer__
+According to the regression diagnostic plots below, the p-value looks to be reliable. The trend line on the Residuals vs Fitted plot looks to stay fairly close to 0 so in this case we can assume the p-value is reliable. If you look at the Q-Q graph the points sit on the line on the whole with the exception of a few outliers.
+
+```{r}
+autoplot(model)
+
+```
+
