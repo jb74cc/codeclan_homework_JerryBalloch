@@ -18,7 +18,7 @@ Load the `housing_prices.csv` data set and undertake an initial exploration of t
 
 ```{r}
 housing_prices <- read_csv(here('data/housing_prices.csv'))
-
+housing_prices
 ```
 
 # 2. 
