@@ -1,0 +1,145 @@
+---
+title: "Manual model development"
+output: html_notebook
+---
+
+```{r}
+# load libraries
+library(tidyverse)
+library(janitor)
+library(GGally)
+library(ggfortify)
+library(modelr)
+
+# load and explore data
+house <- read_csv('../data/kc_house_data.csv')
+names(house)
+summary(house)
+```
+# 2 Question 1
+
+Tidy up the data ready for regression.
+
+```{r}
+# turn `waterfront` and `renovated` into logical vectors and remove unnecessary columns
+house_clean <- house %>% 
+  mutate(waterfront = as.logical(waterfront), 
+         renovated = as.logical(yr_renovated)) %>% 
+  select(-id, -date, -sqft_living15, -sqft_lot15, -zipcode, -yr_renovated)
+```
+
+# 3 Question 2
+
+Check for aliased variables using the alias() function (this takes in a formula object and a data set). [Hint - formula price ~ . says ‘price varying with all predictors’, this is a suitable input to alias()]. Remove variables that lead to an alias. Check the ‘Elements of multiple regression’ lesson for a dropdown containing further information on finding aliased variables in a dataset.
+
+```{r}
+
+alias(lm(price ~ ., data = house_clean)) # `sqft_basement` can be calculated from `sqft_living - sqft_above` so no need for it
+
+house_trim <-  house_clean %>% # remove `sqft_basement` write new trimmed dataset ready to model
+  select(-sqft_basement)
+
+alias(lm(price ~ ., data = house_trim)) # final check for aliases
+
+```
+
+# 4 Question 3
+
+Systematically build a regression model containing up to four main effects (remember, a main effect is just a single predictor with coefficient), testing the regression diagnostics as you go * splitting datasets into numeric and non-numeric columns might help ggpairs() run in manageable time, although you will need to add either a price or resid column to the non-numeric dataframe in order to see its correlations with the non-numeric predictors.
+
+```{r}
+house_trim_numeric <- house_trim %>%
+  select_if(is.numeric)
+
+house_trim_nonnumeric <- house_trim %>%
+  select_if(function(x) !is.numeric(x))
+
+house_trim_nonnumeric$price <- house_trim$price
+
+ggpairs(house_trim)
+ggpairs(house_trim_numeric)
+ggpairs(house_trim_nonnumeric)
+```
+Interested in:
+
+price ~ 
+
+sqft_living,
+sqft_above,
+bathrooms,
+waterfront,
+grade,
+view
+
+## plot simple linear regression
+
+```{r}
+# start with simple linear regression
+house_trim_numeric %>%
+  ggplot(aes(x = sqft_living, y = price)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE)
+```
+## start model build
+
+```{r}
+model <- lm(price ~ sqft_living, data = house_trim_numeric)
+
+autoplot(model)
+summary(model)
+```
+r^2 = 0.4929
+res = 261500
+
+```{r}
+model2 <- lm(price ~ sqft_living + grade, data = house_trim_numeric)
+
+autoplot(model2)
+summary(model2)
+```
+
+r^2 = 0.5345
+res = 250500
+
+
+```{r}
+model3 <- lm(price ~ sqft_living + grade + bathrooms, data = house_trim_numeric)
+
+autoplot(model3)
+summary(model3)
+```
+r^2 = 0.5371
+res = 249800
+
+
+```{r}
+model4 <- lm(price ~ sqft_living + grade + view, data = house_trim_numeric)
+
+autoplot(model4)
+summary(model4)
+```
+
+r^2 = 0.5725
+res = 240000
+
+```{r}
+model_nn_1 <- lm(price ~ waterfront, data = house_trim_nonnumeric)
+
+autoplot(model_nn_1)
+summary(model_nn_1)
+```
+
+```{r}
+model5 <- lm(price ~ sqft_living + grade + view + sqft_above, data = house_trim_numeric)
+
+autoplot(model5)
+summary(model5)
+```
+
+r^2 = 0.5744
+res = 239500
+
+```{r}
+anova(model5)
+```
+
