@@ -1770,14 +1770,110 @@ pre code {
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubmFtZXMoaG91c2UpXG5cbmBgYCJ9 -->
-<pre class="r"><code>names(house)
-</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBsb2FkIGxpYnJhcmllc1xubGlicmFyeSh0aWR5dmVyc2UpXG5gYGAifQ== -->
+<pre class="r"><code># load libraries
+library(tidyverse)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiIFsxXSBcImlkXCIgICAgICAgICAgICBcImRhdGVcIiAgICAgICAgICBcInByaWNlXCIgICAgICAgICBcImJlZHJvb21zXCIgICAgICBcImJhdGhyb29tc1wiICAgICBcInNxZnRfbGl2aW5nXCIgICBcInNxZnRfbG90XCIgICAgICBcImZsb29yc1wiICAgICAgIFxuIFs5XSBcIndhdGVyZnJvbnRcIiAgICBcInZpZXdcIiAgICAgICAgICBcImNvbmRpdGlvblwiICAgICBcImdyYWRlXCIgICAgICAgICBcInNxZnRfYWJvdmVcIiAgICBcInNxZnRfYmFzZW1lbnRcIiBcInlyX2J1aWx0XCIgICAgICBcInlyX3Jlbm92YXRlZFwiIFxuWzE3XSBcInppcGNvZGVcIiAgICAgICBcImxhdFwiICAgICAgICAgICBcImxvbmdcIiAgICAgICAgICBcInNxZnRfbGl2aW5nMTVcIiBcInNxZnRfbG90MTVcIiAgIFxuIn0= -->
-<pre><code> [1] &quot;id&quot;            &quot;date&quot;          &quot;price&quot;         &quot;bedrooms&quot;      &quot;bathrooms&quot;     &quot;sqft_living&quot;   &quot;sqft_lot&quot;      &quot;floors&quot;       
- [9] &quot;waterfront&quot;    &quot;view&quot;          &quot;condition&quot;     &quot;grade&quot;         &quot;sqft_above&quot;    &quot;sqft_basement&quot; &quot;yr_built&quot;      &quot;yr_renovated&quot; 
-[17] &quot;zipcode&quot;       &quot;lat&quot;           &quot;long&quot;          &quot;sqft_living15&quot; &quot;sqft_lot15&quot;   </code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiUmVnaXN0ZXJlZCBTMyBtZXRob2RzIG92ZXJ3cml0dGVuIGJ5ICdkYnBseXInOlxuICBtZXRob2QgICAgICAgICBmcm9tXG4gIHByaW50LnRibF9sYXp5ICAgICBcbiAgcHJpbnQudGJsX3NxbCAgICAgIFxu4pSA4pSAIEF0dGFjaGluZyBwYWNrYWdlcyDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIAgdGlkeXZlcnNlIDEuMy4xIOKUgOKUgFxu4pyUIGdncGxvdDIgMy4zLjYgICAgIOKclCBwdXJyciAgIDAuMy40XG7inJQgdGliYmxlICAzLjEuNyAgICAg4pyUIGRwbHlyICAgMS4wLjlcbuKclCB0aWR5ciAgIDEuMi4wICAgICDinJQgc3RyaW5nciAxLjQuMFxu4pyUIHJlYWRyICAgMi4xLjIgICAgIOKclCBmb3JjYXRzIDAuNS4xXG7ilIDilIAgQ29uZmxpY3RzIOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgCB0aWR5dmVyc2VfY29uZmxpY3RzKCkg4pSA4pSAXG7inJYgZHBseXI6OmZpbHRlcigpIG1hc2tzIHN0YXRzOjpmaWx0ZXIoKVxu4pyWIGRwbHlyOjpsYWcoKSAgICBtYXNrcyBzdGF0czo6bGFnKClcbiJ9 -->
+<pre><code>Registered S3 methods overwritten by &#39;dbplyr&#39;:
+  method         from
+  print.tbl_lazy     
+  print.tbl_sql      
+── Attaching packages ─────────────────────────────────────────────────────── tidyverse 1.3.1 ──
+✔ ggplot2 3.3.6     ✔ purrr   0.3.4
+✔ tibble  3.1.7     ✔ dplyr   1.0.9
+✔ tidyr   1.2.0     ✔ stringr 1.4.0
+✔ readr   2.1.2     ✔ forcats 0.5.1
+── Conflicts ────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShqYW5pdG9yKVxuYGBgIn0= -->
+<pre class="r"><code>library(janitor)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5BdHRhY2hpbmcgcGFja2FnZTog4oCYamFuaXRvcuKAmVxuXG5UaGUgZm9sbG93aW5nIG9iamVjdHMgYXJlIG1hc2tlZCBmcm9tIOKAmHBhY2thZ2U6c3RhdHPigJk6XG5cbiAgICBjaGlzcS50ZXN0LCBmaXNoZXIudGVzdFxuIn0= -->
+<pre><code>
+Attaching package: ‘janitor’
+
+The following objects are masked from ‘package:stats’:
+
+    chisq.test, fisher.test</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShHR2FsbHkpXG5gYGAifQ== -->
+<pre class="r"><code>library(GGally)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiUmVnaXN0ZXJlZCBTMyBtZXRob2Qgb3ZlcndyaXR0ZW4gYnkgJ0dHYWxseSc6XG4gIG1ldGhvZCBmcm9tICAgXG4gICsuZ2cgICBnZ3Bsb3QyXG4ifQ== -->
+<pre><code>Registered S3 method overwritten by &#39;GGally&#39;:
+  method from   
+  +.gg   ggplot2</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShnZ2ZvcnRpZnkpXG5saWJyYXJ5KG1vZGVscilcblxuIyBsb2FkIGFuZCBleHBsb3JlIGRhdGFcbmhvdXNlIDwtIHJlYWRfY3N2KCcuLi9kYXRhL2tjX2hvdXNlX2RhdGEuY3N2JylcbmBgYCJ9 -->
+<pre class="r"><code>library(ggfortify)
+library(modelr)
+
+# load and explore data
+house &lt;- read_csv(&#39;../data/kc_house_data.csv&#39;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiUm93czogMjE2MTMgQ29sdW1uczogMjFcbuKUgOKUgCBDb2x1bW4gc3BlY2lmaWNhdGlvbiDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIBcbkRlbGltaXRlcjogXCIsXCJcbmNociAgICgxKTogaWRcbmRibCAgKDE5KTogcHJpY2UsIGJlZHJvb21zLCBiYXRocm9vbXMsIHNxZnRfbGl2aW5nLCBzcWZ0X2xvdCwgZmxvb3JzLCB3YXRlcmZyb250LCB2aWV3LCBjb25kLi4uXG5kdHRtICAoMSk6IGRhdGVcblxu4oS5IFVzZSBgc3BlYygpYCB0byByZXRyaWV2ZSB0aGUgZnVsbCBjb2x1bW4gc3BlY2lmaWNhdGlvbiBmb3IgdGhpcyBkYXRhLlxu4oS5IFNwZWNpZnkgdGhlIGNvbHVtbiB0eXBlcyBvciBzZXQgYHNob3dfY29sX3R5cGVzID0gRkFMU0VgIHRvIHF1aWV0IHRoaXMgbWVzc2FnZS5cbiJ9 -->
+<pre><code>Rows: 21613 Columns: 21
+── Column specification ────────────────────────────────────────────────────────────────────────
+Delimiter: &quot;,&quot;
+chr   (1): id
+dbl  (19): price, bedrooms, bathrooms, sqft_living, sqft_lot, floors, waterfront, view, cond...
+dttm  (1): date
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubmFtZXMoaG91c2UpXG5gYGAifQ== -->
+<pre class="r"><code>names(house)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiIFsxXSBcImlkXCIgICAgICAgICAgICBcImRhdGVcIiAgICAgICAgICBcInByaWNlXCIgICAgICAgICBcImJlZHJvb21zXCIgICAgICBcImJhdGhyb29tc1wiICAgIFxuIFs2XSBcInNxZnRfbGl2aW5nXCIgICBcInNxZnRfbG90XCIgICAgICBcImZsb29yc1wiICAgICAgICBcIndhdGVyZnJvbnRcIiAgICBcInZpZXdcIiAgICAgICAgIFxuWzExXSBcImNvbmRpdGlvblwiICAgICBcImdyYWRlXCIgICAgICAgICBcInNxZnRfYWJvdmVcIiAgICBcInNxZnRfYmFzZW1lbnRcIiBcInlyX2J1aWx0XCIgICAgIFxuWzE2XSBcInlyX3Jlbm92YXRlZFwiICBcInppcGNvZGVcIiAgICAgICBcImxhdFwiICAgICAgICAgICBcImxvbmdcIiAgICAgICAgICBcInNxZnRfbGl2aW5nMTVcIlxuWzIxXSBcInNxZnRfbG90MTVcIiAgIFxuIn0= -->
+<pre><code> [1] &quot;id&quot;            &quot;date&quot;          &quot;price&quot;         &quot;bedrooms&quot;      &quot;bathrooms&quot;    
+ [6] &quot;sqft_living&quot;   &quot;sqft_lot&quot;      &quot;floors&quot;        &quot;waterfront&quot;    &quot;view&quot;         
+[11] &quot;condition&quot;     &quot;grade&quot;         &quot;sqft_above&quot;    &quot;sqft_basement&quot; &quot;yr_built&quot;     
+[16] &quot;yr_renovated&quot;  &quot;zipcode&quot;       &quot;lat&quot;           &quot;long&quot;          &quot;sqft_living15&quot;
+[21] &quot;sqft_lot15&quot;   </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3VtbWFyeShob3VzZSlcbmBgYCJ9 -->
+<pre class="r"><code>summary(house)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgaWQgICAgICAgICAgICAgICAgIGRhdGUgICAgICAgICAgICAgICAgICAgICAgICAgcHJpY2UgICAgICAgICAgICBiZWRyb29tcyAgICAgXG4gTGVuZ3RoOjIxNjEzICAgICAgIE1pbi4gICA6MjAxNC0wNS0wMiAwMDowMDowMCAgIE1pbi4gICA6ICA3NTAwMCAgIE1pbi4gICA6IDAuMDAwICBcbiBDbGFzcyA6Y2hhcmFjdGVyICAgMXN0IFF1LjoyMDE0LTA3LTIyIDAwOjAwOjAwICAgMXN0IFF1LjogMzIxOTUwICAgMXN0IFF1LjogMy4wMDAgIFxuIE1vZGUgIDpjaGFyYWN0ZXIgICBNZWRpYW4gOjIwMTQtMTAtMTYgMDA6MDA6MDAgICBNZWRpYW4gOiA0NTAwMDAgICBNZWRpYW4gOiAzLjAwMCAgXG4gICAgICAgICAgICAgICAgICAgIE1lYW4gICA6MjAxNC0xMC0yOSAwNDozODowMSAgIE1lYW4gICA6IDU0MDA4OCAgIE1lYW4gICA6IDMuMzcxICBcbiAgICAgICAgICAgICAgICAgICAgM3JkIFF1LjoyMDE1LTAyLTE3IDAwOjAwOjAwICAgM3JkIFF1LjogNjQ1MDAwICAgM3JkIFF1LjogNC4wMDAgIFxuICAgICAgICAgICAgICAgICAgICBNYXguICAgOjIwMTUtMDUtMjcgMDA6MDA6MDAgICBNYXguICAgOjc3MDAwMDAgICBNYXguICAgOjMzLjAwMCAgXG4gICBiYXRocm9vbXMgICAgICBzcWZ0X2xpdmluZyAgICAgICBzcWZ0X2xvdCAgICAgICAgICAgZmxvb3JzICAgICAgICB3YXRlcmZyb250ICAgICAgXG4gTWluLiAgIDowLjAwMCAgIE1pbi4gICA6ICAyOTAgICBNaW4uICAgOiAgICA1MjAgICBNaW4uICAgOjEuMDAwICAgTWluLiAgIDowLjAwMDAwMCAgXG4gMXN0IFF1LjoxLjc1MCAgIDFzdCBRdS46IDE0MjcgICAxc3QgUXUuOiAgIDUwNDAgICAxc3QgUXUuOjEuMDAwICAgMXN0IFF1LjowLjAwMDAwMCAgXG4gTWVkaWFuIDoyLjI1MCAgIE1lZGlhbiA6IDE5MTAgICBNZWRpYW4gOiAgIDc2MTggICBNZWRpYW4gOjEuNTAwICAgTWVkaWFuIDowLjAwMDAwMCAgXG4gTWVhbiAgIDoyLjExNSAgIE1lYW4gICA6IDIwODAgICBNZWFuICAgOiAgMTUxMDcgICBNZWFuICAgOjEuNDk0ICAgTWVhbiAgIDowLjAwNzU0MiAgXG4gM3JkIFF1LjoyLjUwMCAgIDNyZCBRdS46IDI1NTAgICAzcmQgUXUuOiAgMTA2ODggICAzcmQgUXUuOjIuMDAwICAgM3JkIFF1LjowLjAwMDAwMCAgXG4gTWF4LiAgIDo4LjAwMCAgIE1heC4gICA6MTM1NDAgICBNYXguICAgOjE2NTEzNTkgICBNYXguICAgOjMuNTAwICAgTWF4LiAgIDoxLjAwMDAwMCAgXG4gICAgICB2aWV3ICAgICAgICAgIGNvbmRpdGlvbiAgICAgICAgIGdyYWRlICAgICAgICAgIHNxZnRfYWJvdmUgICBzcWZ0X2Jhc2VtZW50ICAgXG4gTWluLiAgIDowLjAwMDAgICBNaW4uICAgOjEuMDAwICAgTWluLiAgIDogMS4wMDAgICBNaW4uICAgOiAyOTAgICBNaW4uICAgOiAgIDAuMCAgXG4gMXN0IFF1LjowLjAwMDAgICAxc3QgUXUuOjMuMDAwICAgMXN0IFF1LjogNy4wMDAgICAxc3QgUXUuOjExOTAgICAxc3QgUXUuOiAgIDAuMCAgXG4gTWVkaWFuIDowLjAwMDAgICBNZWRpYW4gOjMuMDAwICAgTWVkaWFuIDogNy4wMDAgICBNZWRpYW4gOjE1NjAgICBNZWRpYW4gOiAgIDAuMCAgXG4gTWVhbiAgIDowLjIzNDMgICBNZWFuICAgOjMuNDA5ICAgTWVhbiAgIDogNy42NTcgICBNZWFuICAgOjE3ODggICBNZWFuICAgOiAyOTEuNSAgXG4gM3JkIFF1LjowLjAwMDAgICAzcmQgUXUuOjQuMDAwICAgM3JkIFF1LjogOC4wMDAgICAzcmQgUXUuOjIyMTAgICAzcmQgUXUuOiA1NjAuMCAgXG4gTWF4LiAgIDo0LjAwMDAgICBNYXguICAgOjUuMDAwICAgTWF4LiAgIDoxMy4wMDAgICBNYXguICAgOjk0MTAgICBNYXguICAgOjQ4MjAuMCAgXG4gICAgeXJfYnVpbHQgICAgIHlyX3Jlbm92YXRlZCAgICAgICB6aXBjb2RlICAgICAgICAgICBsYXQgICAgICAgICAgICAgbG9uZyAgICAgICBcbiBNaW4uICAgOjE5MDAgICBNaW4uICAgOiAgIDAuMCAgIE1pbi4gICA6OTgwMDEgICBNaW4uICAgOjQ3LjE2ICAgTWluLiAgIDotMTIyLjUgIFxuIDFzdCBRdS46MTk1MSAgIDFzdCBRdS46ICAgMC4wICAgMXN0IFF1Ljo5ODAzMyAgIDFzdCBRdS46NDcuNDcgICAxc3QgUXUuOi0xMjIuMyAgXG4gTWVkaWFuIDoxOTc1ICAgTWVkaWFuIDogICAwLjAgICBNZWRpYW4gOjk4MDY1ICAgTWVkaWFuIDo0Ny41NyAgIE1lZGlhbiA6LTEyMi4yICBcbiBNZWFuICAgOjE5NzEgICBNZWFuICAgOiAgODQuNCAgIE1lYW4gICA6OTgwNzggICBNZWFuICAgOjQ3LjU2ICAgTWVhbiAgIDotMTIyLjIgIFxuIDNyZCBRdS46MTk5NyAgIDNyZCBRdS46ICAgMC4wICAgM3JkIFF1Ljo5ODExOCAgIDNyZCBRdS46NDcuNjggICAzcmQgUXUuOi0xMjIuMSAgXG4gTWF4LiAgIDoyMDE1ICAgTWF4LiAgIDoyMDE1LjAgICBNYXguICAgOjk4MTk5ICAgTWF4LiAgIDo0Ny43OCAgIE1heC4gICA6LTEyMS4zICBcbiBzcWZ0X2xpdmluZzE1ICAgIHNxZnRfbG90MTUgICAgXG4gTWluLiAgIDogMzk5ICAgTWluLiAgIDogICA2NTEgIFxuIDFzdCBRdS46MTQ5MCAgIDFzdCBRdS46ICA1MTAwICBcbiBNZWRpYW4gOjE4NDAgICBNZWRpYW4gOiAgNzYyMCAgXG4gTWVhbiAgIDoxOTg3ICAgTWVhbiAgIDogMTI3NjggIFxuIDNyZCBRdS46MjM2MCAgIDNyZCBRdS46IDEwMDgzICBcbiBNYXguICAgOjYyMTAgICBNYXguICAgOjg3MTIwMCAgXG4ifQ== -->
+<pre><code>      id                 date                         price            bedrooms     
+ Length:21613       Min.   :2014-05-02 00:00:00   Min.   :  75000   Min.   : 0.000  
+ Class :character   1st Qu.:2014-07-22 00:00:00   1st Qu.: 321950   1st Qu.: 3.000  
+ Mode  :character   Median :2014-10-16 00:00:00   Median : 450000   Median : 3.000  
+                    Mean   :2014-10-29 04:38:01   Mean   : 540088   Mean   : 3.371  
+                    3rd Qu.:2015-02-17 00:00:00   3rd Qu.: 645000   3rd Qu.: 4.000  
+                    Max.   :2015-05-27 00:00:00   Max.   :7700000   Max.   :33.000  
+   bathrooms      sqft_living       sqft_lot           floors        waterfront      
+ Min.   :0.000   Min.   :  290   Min.   :    520   Min.   :1.000   Min.   :0.000000  
+ 1st Qu.:1.750   1st Qu.: 1427   1st Qu.:   5040   1st Qu.:1.000   1st Qu.:0.000000  
+ Median :2.250   Median : 1910   Median :   7618   Median :1.500   Median :0.000000  
+ Mean   :2.115   Mean   : 2080   Mean   :  15107   Mean   :1.494   Mean   :0.007542  
+ 3rd Qu.:2.500   3rd Qu.: 2550   3rd Qu.:  10688   3rd Qu.:2.000   3rd Qu.:0.000000  
+ Max.   :8.000   Max.   :13540   Max.   :1651359   Max.   :3.500   Max.   :1.000000  
+      view          condition         grade          sqft_above   sqft_basement   
+ Min.   :0.0000   Min.   :1.000   Min.   : 1.000   Min.   : 290   Min.   :   0.0  
+ 1st Qu.:0.0000   1st Qu.:3.000   1st Qu.: 7.000   1st Qu.:1190   1st Qu.:   0.0  
+ Median :0.0000   Median :3.000   Median : 7.000   Median :1560   Median :   0.0  
+ Mean   :0.2343   Mean   :3.409   Mean   : 7.657   Mean   :1788   Mean   : 291.5  
+ 3rd Qu.:0.0000   3rd Qu.:4.000   3rd Qu.: 8.000   3rd Qu.:2210   3rd Qu.: 560.0  
+ Max.   :4.0000   Max.   :5.000   Max.   :13.000   Max.   :9410   Max.   :4820.0  
+    yr_built     yr_renovated       zipcode           lat             long       
+ Min.   :1900   Min.   :   0.0   Min.   :98001   Min.   :47.16   Min.   :-122.5  
+ 1st Qu.:1951   1st Qu.:   0.0   1st Qu.:98033   1st Qu.:47.47   1st Qu.:-122.3  
+ Median :1975   Median :   0.0   Median :98065   Median :47.57   Median :-122.2  
+ Mean   :1971   Mean   :  84.4   Mean   :98078   Mean   :47.56   Mean   :-122.2  
+ 3rd Qu.:1997   3rd Qu.:   0.0   3rd Qu.:98118   3rd Qu.:47.68   3rd Qu.:-122.1  
+ Max.   :2015   Max.   :2015.0   Max.   :98199   Max.   :47.78   Max.   :-121.3  
+ sqft_living15    sqft_lot15    
+ Min.   : 399   Min.   :   651  
+ 1st Qu.:1490   1st Qu.:  5100  
+ Median :1840   Median :  7620  
+ Mean   :1987   Mean   : 12768  
+ 3rd Qu.:2360   3rd Qu.: 10083  
+ Max.   :6210   Max.   :871200  </code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -1786,8 +1882,9 @@ pre code {
 <p>Tidy up the data ready for regression.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaG91c2VfY2xlYW4gPC0gaG91c2UgJT4lIFxuICBtdXRhdGUod2F0ZXJmcm9udCA9IGFzLmxvZ2ljYWwod2F0ZXJmcm9udCksIFxuICAgICAgICAgcmVub3ZhdGVkID0gYXMubG9naWNhbCh5cl9yZW5vdmF0ZWQpKSAlPiUgXG4gIHNlbGVjdCgtaWQsIC1kYXRlLCAtc3FmdF9saXZpbmcxNSwgLXNxZnRfbG90MTUsIC16aXBjb2RlLCAteXJfcmVub3ZhdGVkKVxuYGBgIn0= -->
-<pre class="r"><code>house_clean &lt;- house %&gt;% 
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyB0dXJuIGB3YXRlcmZyb250YCBhbmQgYHJlbm92YXRlZGAgaW50byBsb2dpY2FsIHZlY3RvcnMgYW5kIHJlbW92ZSB1bm5lY2Vzc2FyeSBjb2x1bW5zXG5ob3VzZV9jbGVhbiA8LSBob3VzZSAlPiUgXG4gIG11dGF0ZSh3YXRlcmZyb250ID0gYXMubG9naWNhbCh3YXRlcmZyb250KSwgXG4gICAgICAgICByZW5vdmF0ZWQgPSBhcy5sb2dpY2FsKHlyX3Jlbm92YXRlZCkpICU+JSBcbiAgc2VsZWN0KC1pZCwgLWRhdGUsIC1zcWZ0X2xpdmluZzE1LCAtc3FmdF9sb3QxNSwgLXppcGNvZGUsIC15cl9yZW5vdmF0ZWQpXG5gYGAifQ== -->
+<pre class="r"><code># turn `waterfront` and `renovated` into logical vectors and remove unnecessary columns
+house_clean &lt;- house %&gt;% 
   mutate(waterfront = as.logical(waterfront), 
          renovated = as.logical(yr_renovated)) %&gt;% 
   select(-id, -date, -sqft_living15, -sqft_lot15, -zipcode, -yr_renovated)</code></pre>
@@ -1805,9 +1902,27 @@ regression’ lesson for a dropdown containing further information on
 finding aliased variables in a dataset.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYWxpYXMobG0ocHJpY2UgfiAuLCBkYXRhID0gaG91c2VfdHJpbSkpXG5cbmBgYCJ9 -->
-<pre class="r"><code>alias(lm(price ~ ., data = house_trim))
-</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG5hbGlhcyhsbShwcmljZSB+IC4sIGRhdGEgPSBob3VzZV9jbGVhbikpICMgYHNxZnRfYmFzZW1lbnRgIGNhbiBiZSBjYWxjdWxhdGVkIGZyb20gYHNxZnRfbGl2aW5nIC0gc3FmdF9hYm92ZWAgc28gbm8gbmVlZCBmb3IgaXRcbmBgYCJ9 -->
+<pre class="r"><code>
+alias(lm(price ~ ., data = house_clean)) # `sqft_basement` can be calculated from `sqft_living - sqft_above` so no need for it</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiTW9kZWwgOlxucHJpY2UgfiBiZWRyb29tcyArIGJhdGhyb29tcyArIHNxZnRfbGl2aW5nICsgc3FmdF9sb3QgKyBmbG9vcnMgKyBcbiAgICB3YXRlcmZyb250ICsgdmlldyArIGNvbmRpdGlvbiArIGdyYWRlICsgc3FmdF9hYm92ZSArIHNxZnRfYmFzZW1lbnQgKyBcbiAgICB5cl9idWlsdCArIGxhdCArIGxvbmcgKyByZW5vdmF0ZWRcblxuQ29tcGxldGUgOlxuICAgICAgICAgICAgICAoSW50ZXJjZXB0KSBiZWRyb29tcyBiYXRocm9vbXMgc3FmdF9saXZpbmcgc3FmdF9sb3QgZmxvb3JzIHdhdGVyZnJvbnRUUlVFIHZpZXdcbnNxZnRfYmFzZW1lbnQgIDAgICAgICAgICAgIDAgICAgICAgIDAgICAgICAgICAxICAgICAgICAgICAwICAgICAgICAwICAgICAgMCAgICAgICAgICAgICAgMCAgXG4gICAgICAgICAgICAgIGNvbmRpdGlvbiBncmFkZSBzcWZ0X2Fib3ZlIHlyX2J1aWx0IGxhdCBsb25nIHJlbm92YXRlZFRSVUVcbnNxZnRfYmFzZW1lbnQgIDAgICAgICAgICAwICAgIC0xICAgICAgICAgIDAgICAgICAgIDAgICAwICAgIDAgICAgICAgICAgIFxuIn0= -->
+<pre><code>Model :
+price ~ bedrooms + bathrooms + sqft_living + sqft_lot + floors + 
+    waterfront + view + condition + grade + sqft_above + sqft_basement + 
+    yr_built + lat + long + renovated
+
+Complete :
+              (Intercept) bedrooms bathrooms sqft_living sqft_lot floors waterfrontTRUE view
+sqft_basement  0           0        0         1           0        0      0              0  
+              condition grade sqft_above yr_built lat long renovatedTRUE
+sqft_basement  0         0    -1          0        0   0    0           </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaG91c2VfdHJpbSA8LSAgaG91c2VfY2xlYW4gJT4lICMgcmVtb3ZlIGBzcWZ0X2Jhc2VtZW50YCB3cml0ZSBuZXcgdHJpbW1lZCBkYXRhc2V0IHJlYWR5IHRvIG1vZGVsXG4gIHNlbGVjdCgtc3FmdF9iYXNlbWVudClcblxuYWxpYXMobG0ocHJpY2UgfiAuLCBkYXRhID0gaG91c2VfdHJpbSkpICMgZmluYWwgY2hlY2sgZm9yIGFsaWFzZXNcbmBgYCJ9 -->
+<pre class="r"><code>house_trim &lt;-  house_clean %&gt;% # remove `sqft_basement` write new trimmed dataset ready to model
+  select(-sqft_basement)
+
+alias(lm(price ~ ., data = house_trim)) # final check for aliases</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoiTW9kZWwgOlxucHJpY2UgfiBiZWRyb29tcyArIGJhdGhyb29tcyArIHNxZnRfbGl2aW5nICsgc3FmdF9sb3QgKyBmbG9vcnMgKyBcbiAgICB3YXRlcmZyb250ICsgdmlldyArIGNvbmRpdGlvbiArIGdyYWRlICsgc3FmdF9hYm92ZSArIHlyX2J1aWx0ICsgXG4gICAgbGF0ICsgbG9uZyArIHJlbm92YXRlZFxuIn0= -->
 <pre><code>Model :
