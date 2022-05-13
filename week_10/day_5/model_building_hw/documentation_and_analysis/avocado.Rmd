@@ -1,0 +1,160 @@
+---
+title: "Model Building Homework"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+library(janitor)
+library(modelr)
+library(GGally)
+library(ggfortify)
+library(here)
+library(lubridate)
+```
+
+```{r}
+avocado <- read_csv(here('data/avocado.csv')) %>% 
+  clean_names()
+
+names(avocado)
+dim(avocado)
+head(avocado)
+```
+
+```{r}
+# clean up data
+# create `month` column from `date` and make it a `factor`
+# make `type` a `factor`
+# rename plu columns to make more sense
+# remove un-needed columns
+
+avocado_clean <- avocado %>% 
+  mutate(month = as.factor(month(date)),
+         type = as.factor(type)) %>% 
+  rename(total_plu_4046 = x4046,
+         total_plu_4225 = x4225,
+         total_plu_4770 = x4770) %>% 
+  select(-c(x1, date))
+
+avocado_clean
+
+avocado_trim <- avocado_clean %>% 
+  select(-region)
+```
+```{r}
+# check for any aliased variables
+alias(average_price ~ ., data = avocado_clean)
+```
+
+```{r}
+# plot `average_price` to see how it looks
+ggplot(avocado_clean, aes(average_price)) + 
+  geom_histogram(colour = "white")
+
+ggplot(avocado_clean, aes(x = type, y = average_price)) +
+  geom_boxplot()
+
+ggplot(avocado_clean, aes(x = month, y = average_price)) +
+  geom_boxplot()
+
+```
+
+```{r}
+# run `ggpairs()` and look for interesting variables
+# region is causing problems so remove it for the moment
+avocado_clean %>% 
+  select(-region) %>% 
+  ggpairs()
+```
+### Interesting predictors
+
+average_price ~
+type, 
+month,
+total_plu_4046
+
+```{r}
+# create first model
+mod1a <- lm(average_price ~ type, data = avocado_clean)
+summary(mod1a)
+```
+
+```{r}
+# create second model
+mod1b <- lm(average_price ~ month, data = avocado_clean)
+summary(mod1b)
+```
+
+```{r}
+# create third model
+mod1c <- lm(average_price ~ region, data = avocado_clean)
+summary(mod1c)
+```
+
+```{r}
+anova(mod1a, mod1c)
+
+null_model <- lm(average_price ~ 1, data = avocado_clean)
+anova(null_model, mod1c)
+```
+
+```{r}
+autoplot(mod1a)
+```
+
+```{r}
+# adding residuals
+avo_resid <- avocado_clean %>%
+  add_residuals(mod1a) %>%
+  select(-c("average_price", "type"))
+
+avo_resid %>% 
+  select(-region) %>% 
+  ggpairs()
+```
+
+```{r}
+# adding region to first model
+mod2a <- lm(average_price ~ type + region, data = avocado_clean)
+summary(mod2a)
+```
+
+```{r}
+# adding region to first model
+mod2b <- lm(average_price ~ type + region + year, data = avocado_clean)
+summary(mod2b)
+```
+
+## Try automated model builder
+
+```{r}
+library(leaps)
+```
+
+```{r}
+regsubsets_forward <- regsubsets(average_price ~ ., data = avocado_trim, nvmax = 10, method = "forward")
+```
+
+```{r}
+sum_regsubsets_forward <- summary(regsubsets_forward)
+sum_regsubsets_forward
+```
+
+```{r}
+plot(regsubsets_forward, scale = "adjr2")
+```
+```{r}
+plot(regsubsets_forward, scale = "bic")
+
+```
+
+```{r}
+plot(sum_regsubsets_forward$rsq, type = "b")
+
+```
+
+```{r}
+
+```
+
