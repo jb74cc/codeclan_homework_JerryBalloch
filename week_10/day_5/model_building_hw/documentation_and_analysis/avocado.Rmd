@@ -72,7 +72,7 @@ avocado_clean %>%
 average_price ~
 type, 
 month,
-total_plu_4046
+
 
 ```{r}
 # create first model
@@ -125,6 +125,19 @@ summary(mod2a)
 mod2b <- lm(average_price ~ type + region + year, data = avocado_clean)
 summary(mod2b)
 ```
+```{r}
+# add interaction
+mod3a <- lm(average_price ~ type + region + year + type:region, data = avocado_clean)
+summary(mod3a)
+```
+
+```{r}
+mod3b <- lm(average_price ~ type + region + year + type:year, data = avocado_clean)
+summary(mod3b)
+```
+
+
+
 
 ## Try automated model builder
 
