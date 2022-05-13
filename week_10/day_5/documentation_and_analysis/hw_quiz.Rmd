@@ -1,0 +1,38 @@
+---
+title: "Homework Quiz"
+author: "Jerry Balloch"
+date: '2022-05-13'
+output: html_document
+---
+
+### 1. I want to predict how well 6 year-olds are going to do in their final school exams. Using the following variables am I likely under-fitting, fitting well or over-fitting? Postcode, gender, reading level, score in maths test, date of birth, family income.
+
+It depends on the context. You would likely be over-fitting your model as predictors like postcode and family income may have little bearing on the result of the exam unless socio-economic circumstances were needed to be accounted for. Date of birth may not needed if we know that data is on 6 years olds, if the data contains many age groups then obviously we'd need to include it.
+
+### 2. If I have two models, one with an AIC score of 34,902 and the other with an AIC score of 33,559 which model should I use?
+
+The lower the AIC number the better so I would go with the 33,559 model in this case if it is based on AIC alone.
+
+### 3. I have two models, the first with: r-squared: 0.44, adjusted r-squared: 0.43. The second with: r-squared: 0.47, adjusted r-squared: 0.41. Which one should I use?
+
+The first model is being penalised less as the `adjusted r-squared` value is closer to the `r-squared value`. The second model has a better (higher) `adjusted r-squared` value but it has been penalised more suggesting that it uses more predictors so perhaps is slightly over-fitting. It would depend on the context but in general you go with the higher `r-squared value`. Since they are both quite close I would do an `anova` test to see which is more significant.
+
+### 4. I have a model with the following errors: RMSE error on test set: 10.3, RMSE error on training data: 10.4. Do you think this model is over-fitting?
+
+A lower RMSE error rate indicates a better fit, but comparing the two numbers alone, it isn't possible to say if it is over-fitting or not.
+
+### 5. How does k-fold validation work?
+
+K-fold validation is useful if you don't have a lot of data to start with. It takes your data and divides it into a specified number of 'folds' it then cycles through a process of using each fold as test data against the remaining folds as training data. There is no data spill in this process as the folds remain constant throughout the cycling.
+
+### 6. What is a validation set? When do you need one?
+
+A validation set is a random sample of data from the original dataset that is set aside and not used in any of the training of the model building process. You can then use it as a non biased testing sample to see how your model performs and what kind of error rate you could expect.
+
+### 7. Describe how backwards selection works.
+
+Backwards selection starts the model with all predictors added and removes one at a time based on which predictors lower the r-squared least when removed. It tracks each step until all predictors have been removed.
+
+### 8. Describe how best subset selection works.
+
+Best subset or Exhaustive Search, looks for all possible combinations of predictors to find which result in the highest r-squared. It can be computationally intensive though if you have a lot of data.
