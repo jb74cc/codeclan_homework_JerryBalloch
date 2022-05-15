@@ -58,7 +58,16 @@ ggplot(avocado_clean, aes(x = type, y = average_price)) +
 ggplot(avocado_clean, aes(x = month, y = average_price)) +
   geom_boxplot()
 
+ggplot(avocado_clean, aes(x = region, y = average_price)) +
+  geom_boxplot()
+
 ```
+- The `average_price` data looks to be pretty normally distributed.
+- The `type` boxplot show a clear difference between the two types so this could be a good predictor to use.
+- The `month` boxplot show variance throughout the year which could also affect price.
+- The `region` boxplot show variance throughout regions which could also affect price.
+
+
 
 ```{r}
 # run `ggpairs()` and look for interesting variables
@@ -79,6 +88,8 @@ month,
 mod1a <- lm(average_price ~ type, data = avocado_clean)
 summary(mod1a)
 ```
+`average_price ~ type` looks to be a good starting point for the model: Adjusted R-squared:  0.3792
+
 
 ```{r}
 # create second model
@@ -86,22 +97,30 @@ mod1b <- lm(average_price ~ month, data = avocado_clean)
 summary(mod1b)
 ```
 
+`month` does look to affect the price but is not as good a starting point so will save to use as an added predictor to the model: Adjusted R-squared:  0.05953
+
 ```{r}
 # create third model
 mod1c <- lm(average_price ~ region, data = avocado_clean)
 summary(mod1c)
 ```
+`region` has more of an effect that `month` so will save to use as an added predictor too. Adjusted R-squared:  0.1657
+
 
 ```{r}
-anova(mod1a, mod1c)
+anova(mod1b, mod1c)
 
 null_model <- lm(average_price ~ 1, data = avocado_clean)
 anova(null_model, mod1c)
 ```
+Using `anova` Model 2: average_price ~ region seems to be more significant
+
 
 ```{r}
 autoplot(mod1a)
 ```
+Plotting mod1a to have a look at residuals. Charts look okay.
+
 
 ```{r}
 # adding residuals
@@ -119,34 +138,52 @@ avo_resid %>%
 mod2a <- lm(average_price ~ type + region, data = avocado_clean)
 summary(mod2a)
 ```
+Adding in `region` predictor has a decent impact, Adjusted R-squared:  0.546, up from 0.3792. No much of a penalty between r values yet either.
+
+
 
 ```{r}
-# adding region to first model
-mod2b <- lm(average_price ~ type + region + year, data = avocado_clean)
+# adding month as another predictor
+mod2b <- lm(average_price ~ type + region + month, data = avocado_clean)
 summary(mod2b)
 ```
+Adding in `month` has a further good impact: Multiple R-squared:  0.6074,	Adjusted R-squared:  0.606,
+still not being penalised much for the addition.
+
+
 ```{r}
-# add interaction
-mod3a <- lm(average_price ~ type + region + year + type:region, data = avocado_clean)
+# add interaction between `type:region`
+mod3a <- lm(average_price ~ type + region + month + type:region, data = avocado_clean)
 summary(mod3a)
 ```
 
+Adding an interaction between `type:region`  gets us further, Multiple R-squared:  0.6472,	Adjusted R-squared:  0.6449, penalties still looking lean.
+
+
+
 ```{r}
-mod3b <- lm(average_price ~ type + region + year + type:year, data = avocado_clean)
+# try a different interaction `type:month`
+mod3b <- lm(average_price ~ type + region + month + type:month, data = avocado_clean)
 summary(mod3b)
 ```
 
+Not a strong a result here, mod3a much stronger.
 
+----
 
+# Trying automated model builder
 
-## Try automated model builder
+Using `leaps` package, disregarding the `region` predictor
 
 ```{r}
 library(leaps)
 ```
 
 ```{r}
-regsubsets_forward <- regsubsets(average_price ~ ., data = avocado_trim, nvmax = 10, method = "forward")
+regsubsets_forward <- regsubsets(average_price ~ ., 
+                                 data = avocado_trim, 
+                                 nvmax = 10, 
+                                 method = "forward")
 ```
 
 ```{r}
@@ -166,8 +203,43 @@ plot(regsubsets_forward, scale = "bic")
 plot(sum_regsubsets_forward$rsq, type = "b")
 
 ```
+Automated building seems to suggest that I was right in my manual building process to be selecting average_price ~ type, month, year as they all seemed to be the most significant predictors here, getting to a r2 of around 0.47. Adding in the region predictor would obvioulsy bring this up closer to where I got to building the model manually.
+
+----
+
+# tidy models
+
+Having a quick look at the `tidymodels` package.
 
 ```{r}
-
+library(tidymodels)
+library(dotwhisker)
 ```
 
+```{r}
+ggplot(avocado_clean,
+       aes(x = month, 
+           y = average_price, 
+           group = type, 
+           col = type)) + 
+  geom_point() + 
+  geom_smooth(method = lm, se = FALSE) +
+  scale_color_viridis_d(option = "plasma", end = .7) +
+  facet_grid(~type)
+```
+```{r}
+lm_mod <- linear_reg()
+
+lm_fit <- lm_mod %>% 
+  fit(average_price ~ type + region + month, data = avocado_clean)
+
+lm_fit
+```
+```{r}
+tidy(lm_fit)
+```
+```{r}
+tidy(lm_fit) %>% 
+  dwplot(dot_args = list(size = 2, color = "black"),
+         whisker_args = list(color = "black"),
+         vline = geom_vline(xintercept = 0, colour = "grey50", linetype = 2))
