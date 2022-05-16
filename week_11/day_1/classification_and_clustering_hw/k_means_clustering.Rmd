@@ -1,0 +1,44 @@
+---
+title: "Classification & Clustering"
+subtitle: "K-means clustering"
+output: html_notebook
+---
+----
+
+# Classification _vs_ Clustering
+
+Classification is a supervised machine learning technique, while clustering is an unsupervised technique. 
+
+Classification allows you to categorise labelled data, it is supervised because you will make use of a labelled dataset where the output of the algorithm is known. This works by setting rules to linearly separate the data points. It may be something like: Given an example, classify if it is spam or not.
+
+Clustering is an unsupervised machine learning technique that you can use to detect similarities within an unlabelled dataset. Clustering algorithms use distance measures to group or separate data points. This produces homogeneous groups that differ from one another. For example, a taxi driver might gradually develop a concept of “good traffic days” and “bad traffic days” without ever being given labeled examples of each.
+
+----
+
+# K-means clustering
+
+K-means is one of the most commonly used unsupervised machine learning algorithms for partitioning data into a specified number of groups. The objective of K-means is simple: group similar data points together and discover underlying patterns.
+
+K-means clustering can be used to classify observations into groups, based on their similarity. Each group is represented by the mean value of points in the group, known as the cluster centroid.
+
+The K-means algorithm requires users to specify the number of cluster to generate. The `R` function `kmeans()` can be used to compute the k-means algorithm. 
+
+The algorithm works in the following way:
+
+1. __You__ specify the number of clusters (K) to be created
+2. __The algorithm__ randomly selects k objects from the dataset as the initial cluster centres or means
+3. It assigns each observation to their closest centroid, based on the Euclidean distance between the object and the centroid
+4. For each of the k clusters it updates the cluster centroid by calculating the new mean values of all the data points in the cluster
+5. It iteratively minimises the total within sum of squares by cycling through steps 3 and 4 until the cluster assignments stop changing or the maximum number of iterations is reached. `R` uses 10 as the default value for the maximum number of iterations.
+
+K-means clustering is a very simple and fast algorithm. It can efficiently deal with very large data sets. However there are some weaknesses:
+
+1. It assumes prior knowledge of the data and requires the analyst to choose the appropriate number of clusters (K) in advance.
+2. The final results obtained are sensitive to the initial random selection of cluster centres. This is a problem because, for every different run of the algorithm on the same dataset, you may choose different set of initial centres. This may lead to different clustering results on different runs of the algorithm.
+3. It is sensitive to outliers.
+4. If you rearrange your data, it is very possible that you’ll get a different solution every time you change the ordering of your data.
+
+
+Sources:   
+www.dotactiv.com   
+www.datanovia.com
