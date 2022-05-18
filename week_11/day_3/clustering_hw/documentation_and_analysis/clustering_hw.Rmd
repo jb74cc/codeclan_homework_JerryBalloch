@@ -1,0 +1,163 @@
+---
+title: "Clustering Homework"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+library(janitor)
+library(here)
+library(factoextra)
+library(broom)
+```
+
+# EDA
+
+Mall data is a dataframe with 5 columns and 200 rows. All Columns are `double` apart from gender which is `character`, will probably change to factor or logical. No NA's are present in the data. the Columns are:
+
+1. customer_id 
+2. gender
+3. age
+4. annual_income_k
+5. spending_score_1_100 - presumming score is from 1 to 100.
+
+Max annual income appears to be 137k, max spending score is 99.
+
+```{r}
+# read in data and explore
+
+mall <- read_csv(here('data/mall_customers.csv')) %>% 
+  clean_names()
+
+head(mall)
+glimpse(mall)
+```
+
+```{r}
+mall %>% 
+  summarise(across(everything(), .fns = ~sum(is.na(.x))))
+
+slice_max(mall, annual_income_k)
+slice_max(mall, spending_score_1_100)
+
+```
+
+
+```{r}
+# selecting columns to cluster
+mall_trim <- mall %>% 
+  select(-age, -gender)
+mall_trim
+```
+```{r}
+# quick plot to see how the data looks
+ggplot(mall_trim, aes(x = annual_income_k, y = spending_score_1_100)) +
+  geom_point()
+```
+
+```{r}
+# scaling data
+mall_scale <- mall_trim %>% 
+  select(-customer_id) %>% 
+  mutate(across(1:2, scale))
+mall_scale
+
+
+mall_scale %>% 
+  as_tibble() %>% 
+  pivot_longer(cols = c(annual_income_k, spending_score_1_100),
+               names_to = "type",
+               values_to = "value") %>% 
+  group_by(type) %>% 
+  summarise(mean = round(mean(value)),
+            sd = sd(value))
+```
+
+```{r}
+# check the plot after scaling, looks the same
+ggplot(mall_scale, aes(x = annual_income_k, y = spending_score_1_100)) +
+  geom_point()
+```
+
+# Clustering
+
+Try a few methods to see how the data clusters. Looks like five cluster groups is a good way forward.
+
+```{r}
+# Elbow method
+fviz_nbclust(mall_scale, 
+             kmeans, 
+             method = "wss", 
+             nstart = 25)
+```
+
+```{r}
+# silhouette method
+fviz_nbclust(mall_scale, 
+             kmeans, 
+             method = "silhouette", 
+             nstart = 25)
+```
+
+```{r}
+# gap_stat method, not sure how to interpret this!
+fviz_nbclust(mall_scale, 
+             kmeans, 
+             method = "gap_stat") 
+```
+## Set up clustering
+
+```{r}
+# kmeans to set up 5 clusters
+clustered_mall_scale <- kmeans(mall_scale, 5, nstart = 25)
+
+clustered_mall <- kmeans(mall_trim, 5, nstart = 25)
+```
+
+```{r}
+# cluster sizes
+clustered_mall_scale$size
+```
+
+```{r}
+# cluster centres
+clustered_mall_scale$centers
+
+```
+
+## Visualise the clusters
+
+```{r}
+clusters <- augment(clustered_mall_scale, mall_scale)
+
+ggplot(clusters, aes(annual_income_k, spending_score_1_100, colour = .cluster)) +
+  geom_point() 
+```
+```{r}
+# plotting non scaled data
+clusters_non_scaled <- augment(clustered_mall, mall_trim)
+
+ggplot(clusters, aes(annual_income_k, spending_score_1_100, colour = .cluster)) +
+  geom_point() 
+```
+Non scaled data changes the clusters slightly, but is easier to interpret.
+
+
+```{r}
+# looking at averages of income and spending score by cluster
+clusters_non_scaled %>% 
+  group_by(.cluster) %>%
+  summarise(annual_income_k = mean(annual_income_k), spending_score_1_100 = mean(spending_score_1_100)) %>% 
+  arrange(desc(spending_score_1_100))
+
+```
+
+# Comments on clusters and Targeting
+
+After initial exploration I settled on building 5 clusters with the data. Once K-means clustering was completed we are left with 5 clusters as summarised above. The results are interesting from a targeting point of view. 
+
+The two highest average earners, clusters 3 and 4, are separated by under 2k in earnings but the spending scores are very different, with the cluster that earns slightly less (4) scoring significantly higher. Cluster 4 actually has the highest average spending score (82) in the dataset. I would suggest targeting this cluster in the first instance.
+
+As a second target group I would go with cluster 5 which although having the second lowest average income, has the second highest spending score (66).
+
+Overall in terms of targeting based on spending score I would go for the following order: 4, 5, 2, 1, 3.
