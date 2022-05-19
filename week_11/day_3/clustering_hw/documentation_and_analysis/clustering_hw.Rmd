@@ -46,7 +46,7 @@ slice_max(mall, spending_score_1_100)
 ```{r}
 # selecting columns to cluster
 mall_trim <- mall %>% 
-  select(-age, -gender)
+  select(-age, -gender, -customer_id)
 mall_trim
 ```
 ```{r}
@@ -59,7 +59,7 @@ ggplot(mall_trim, aes(x = annual_income_k, y = spending_score_1_100)) +
 # scaling data
 mall_scale <- mall_trim %>% 
   select(-customer_id) %>% 
-  mutate(across(1:2, scale))
+  mutate(across(where(is.numeric), scale))
 mall_scale
 
 
@@ -103,7 +103,8 @@ fviz_nbclust(mall_scale,
 # gap_stat method, not sure how to interpret this!
 fviz_nbclust(mall_scale, 
              kmeans, 
-             method = "gap_stat") 
+             method = "gap_stat",
+             nstart=25) 
 ```
 ## Set up clustering
 
@@ -156,8 +157,8 @@ clusters_non_scaled %>%
 
 After initial exploration I settled on building 5 clusters with the data. Once K-means clustering was completed we are left with 5 clusters as summarised above. The results are interesting from a targeting point of view. 
 
-The two highest average earners, clusters 3 and 4, are separated by under 2k in earnings but the spending scores are very different, with the cluster that earns slightly less (4) scoring significantly higher. Cluster 4 actually has the highest average spending score (82) in the dataset. I would suggest targeting this cluster in the first instance.
+The two highest average earners, clusters 1 and 2, are separated by around 2k in earnings but the spending scores are very different, with the cluster that earns slightly less (2) scoring significantly higher. Cluster 2 actually has the highest average spending score (82) in the dataset. I would suggest targeting this cluster in the first instance.
 
-As a second target group I would go with cluster 5 which although having the second lowest average income, has the second highest spending score (66).
+As a second target group I would go with cluster 3 which although having the second lowest average income, has the second highest spending score (79).
 
-Overall in terms of targeting based on spending score I would go for the following order: 4, 5, 2, 1, 3.
+Overall in terms of targeting based on spending score I would go for the following order: 2, 3, 4, 5, 1.
