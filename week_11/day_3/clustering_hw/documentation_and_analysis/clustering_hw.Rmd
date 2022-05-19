@@ -137,7 +137,7 @@ ggplot(clusters, aes(annual_income_k, spending_score_1_100, colour = .cluster)) 
 # plotting non scaled data
 clusters_non_scaled <- augment(clustered_mall, mall_trim)
 
-ggplot(clusters, aes(annual_income_k, spending_score_1_100, colour = .cluster)) +
+ggplot(clusters_non_scaled, aes(annual_income_k, spending_score_1_100, colour = .cluster)) +
   geom_point() 
 ```
 Non scaled data changes the clusters slightly, but is easier to interpret.
