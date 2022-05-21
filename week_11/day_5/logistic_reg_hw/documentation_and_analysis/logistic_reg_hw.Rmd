@@ -1,0 +1,25 @@
+---
+title: "Logistic Regression Homework"
+author: "Jerry Balloch"
+output: html_notebook
+---
+
+```{r message=FALSE}
+# load libraries
+library(tidyverse)
+library(tidymodels)
+library(modelr)
+library(janitor)
+library(GGally)
+library(broom)
+library(caret)
+
+```
+
+```{r}
+oj <- read_csv(here::here('data/orange_juice.csv')) %>% 
+  clean_names() %>% 
+  mutate(purchase_mm = as.logical(purchase == "MM"), .before = 2)
+oj
+```
+
