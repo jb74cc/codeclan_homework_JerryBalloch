@@ -13,13 +13,92 @@ library(janitor)
 library(GGally)
 library(broom)
 library(caret)
+library(splitstackshape)
+library(leaps)
 
 ```
 
 ```{r}
+# read in and wrangle data
 oj <- read_csv(here::here('data/orange_juice.csv')) %>% 
   clean_names() %>% 
-  mutate(purchase_mm = as.logical(purchase == "MM"), .before = 2)
+  mutate(purchase_mm = as.logical(purchase == "MM"), .before = 2,
+         store_id = as.factor(store_id), 
+         store7 = as.factor(store7),
+         store = as.factor(store),
+         special_ch = as.logical(special_ch),
+         special_mm = as.logical(special_mm)) %>% 
+  select(-purchase, -weekof_purchase)
 oj
+
+# check for NAs
+oj %>% 
+ summarise(across(everything(), .fns = ~sum(is.na(.x))))
+```
+
+```{r}
+# run `alias()` to check for conflicts
+alias(lm(oj))
+
+# remove unneeded columns
+oj_trim <- oj %>% 
+  select(-sale_price_ch, -sale_price_mm, -price_diff, -store7, -list_price_diff)
+```
+
+
+
+```{r}
+# create test, train data using stratification on 'purchase_mm'
+sets <- stratified(oj_trim, group = c("purchase_mm"), bothSets = TRUE, size = 0.2)
+
+oj_test <- sets$SAMP1
+oj_train <- sets$SAMP2
+
+# check balanced sets
+oj_test %>%
+ tabyl(purchase_mm)
+
+oj_train %>%
+ tabyl(purchase_mm)
+```
+
+
+```{r}
+ggpairs(oj_train)
+```
+
+```{r}
+regsubsets_forward <- regsubsets(purchase_mm ~ ., data = oj_train, nvmax = 8, method = "forward")
+
+sum_regsubsets_forward <- summary(regsubsets_forward)
+sum_regsubsets_forward
+```
+
+```{r}
+plot(regsubsets_forward, scale = "adjr2")
+
+```
+```{r}
+plot(sum_regsubsets_forward$rsq, type = "b")
+plot(sum_regsubsets_forward$bic, type = "b")
+
+```
+
+```{r}
+mod1 <- lm(purchase_mm ~ ., data = oj_train)
+
+summary(mod1)
+```
+
+```{r}
+mod2 <- lm(purchase_mm ~ price_mm + loyal_ch + disc_mm + price_ch, data = oj_train)
+
+summary(mod2)
+```
+
+```{r}
+mod3 <- lm(purchase_mm ~ loyal_ch + price_mm + price_ch + disc_mm + pct_disc_ch, data = oj_train)
+
+summary(mod3)
 ```
 
