@@ -1,0 +1,177 @@
+---
+title: "Text Mining Homework"
+author: "Jerry Balloch"
+output: html_notebook
+---
+
+```{r message=FALSE}
+library(tidyverse)
+library(tidytext)
+library(janeaustenr)
+library(textdata)
+library(ggwordcloud)
+```
+
+# MVP
+
+## 1. Find the most common words in both Pride & Prejudice and Sense & Sensibility.
+
+```{r}
+book_pride <- tibble(
+  text = prideprejudice,
+  sentence = 1:length(prideprejudice)) %>% 
+  unnest_tokens(word, text)
+
+book_sense <- tibble(
+  text = sensesensibility,
+  sentence = 1:length(sensesensibility)) %>% 
+  unnest_tokens(word, text)
+
+# most common words in Pride & Prejudice
+book_pride %>% 
+  count(word, sort = TRUE)  %>%
+  head(10)
+```
+```{r}
+# most common words in Sense & Sensibility
+book_sense %>% 
+  count(word, sort = TRUE) %>% 
+  head(10)
+```
+
+## 2. Find the most common words in both Pride & Prejudice and Sense & Sensibility, not including stop words.
+
+```{r}
+# remove stop words
+book_pride_no_stop <- tibble(
+  text = prideprejudice,
+  sentence = 1:length(prideprejudice)) %>% 
+  unnest_tokens(word, text) %>% 
+  anti_join(stop_words, by = "word") 
+
+book_sense_no_stop <- tibble(
+  text = sensesensibility,
+  sentence = 1:length(sensesensibility)) %>% 
+  unnest_tokens(word, text) %>% 
+  anti_join(stop_words, by = "word")
+
+# most common words in Pride & Prejudice
+book_pride_no_stop %>% 
+  count(word, sort = TRUE)
+```
+```{r}
+# most common words in Sense & Sensibility
+book_sense_no_stop %>% 
+  count(word, sort = TRUE) 
+```
+
+
+## 3. Find the most common sentiment words in both Pride & Prejudice and Sense & Sensibility.
+
+```{r}
+# Pride and Prejudice
+pride_sentiments <- book_pride_no_stop %>% 
+  inner_join(get_sentiments("bing"), by = "word")
+
+# Positive sentiments
+pride_sentiments %>% 
+  filter(sentiment == "positive") %>% 
+  count(word, sort = TRUE) %>% 
+  head(5)
+
+# Negative sentiments
+pride_sentiments %>% 
+  filter(word != "miss") %>% 
+  filter(sentiment == "negative") %>% 
+  count(word, sort = TRUE) %>% 
+  head(5)
+
+# Sense & Sensibility
+sense_sentiments <- book_sense_no_stop %>% 
+  inner_join(get_sentiments("bing"), by = "word")
+
+# Positive sentiments
+sense_sentiments %>% 
+  filter(sentiment == "positive") %>% 
+  count(word, sort = TRUE) %>% 
+  head(5)
+
+# Negative sentiments
+sense_sentiments %>% 
+  filter(word != "miss") %>% 
+  filter(sentiment == "negative") %>% 
+  count(word, sort = TRUE) %>% 
+  head(5)
+```
+### Wordcloud of each book
+
+```{r message=FALSE}
+pop_pride_ns <- book_pride_no_stop %>% 
+  count(word, sort = TRUE)
+
+# word cloud of Pride and Prejudice
+ggwordcloud(pop_pride_ns$word, 
+            pop_pride_ns$n, 
+            random.order = FALSE, random.color = FALSE, 
+            colors = pop_pride_ns$n,
+            ordered.colors = TRUE)
+```
+
+```{r message=FALSE}
+pop_sense_ns <- book_sense_no_stop %>% 
+  count(word, sort = TRUE) 
+
+# word cloud of Sense and Sensibility
+ggwordcloud(pop_sense_ns$word, 
+            pop_sense_ns$n, 
+            random.order = FALSE, random.color = FALSE, 
+            colors = pop_sense_ns$n, 
+            ordered.colors = TRUE)
+```
+
+# Extension
+
+### Visualise the sentiment of 'Pride and Prejudice' against 'Sense and Sensibility'
+
+```{r}
+# Get sentiment scores using `afinn` lexicon
+pride_sentiment_scores <- book_pride_no_stop %>% 
+  inner_join(get_sentiments("afinn"), by = "word")
+
+sense_sentiment_scores <- book_sense_no_stop %>% 
+  inner_join(get_sentiments("afinn"), by = "word")
+
+```
+
+```{r}
+# calculate the mean and total sentiments
+pride_sentence_sentiments <- pride_sentiment_scores %>% 
+  group_by(sentence) %>% 
+  summarise(n_words = n(),
+            mean_sentiment = mean(value),
+            total_sentiment = sum(value))
+
+pride_sentence_sentiments
+
+sense_sentence_sentiments <- sense_sentiment_scores %>% 
+  group_by(sentence) %>% 
+  summarise(n_words = n(),
+            mean_sentiment = mean(value),
+            total_sentiment = sum(value))
+
+sense_sentence_sentiments
+```
+
+
+```{r}
+# plot the sentiments of both books using the means
+ggplot(pride_sentence_sentiments, aes(sentence, mean_sentiment)) +
+  geom_smooth(method = "loess", colour = "pink", se = FALSE) +
+  geom_smooth(data = sense_sentence_sentiments, 
+              aes(sentence, mean_sentiment), method = "loess", colour = "purple", se = FALSE) +
+  labs(title = "Sentiment of Pride and Prejudice (pink) vs Sense and Sensibility (purple)") +
+  theme_minimal()
+
+```
+
+
