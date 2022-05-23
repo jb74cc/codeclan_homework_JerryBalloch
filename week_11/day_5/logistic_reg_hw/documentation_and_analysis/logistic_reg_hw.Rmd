@@ -102,3 +102,4 @@ mod3 <- lm(purchase_mm ~ loyal_ch + price_mm + price_ch + disc_mm + pct_disc_ch,
 summary(mod3)
 ```
 
+# Need to finish this off
